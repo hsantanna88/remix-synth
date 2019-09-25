@@ -758,10 +758,10 @@ placebos = generate.placebos(dataprep.out, synth.out)
 #>  searching for synthetic control unit  
 #> 
 #> Error in svd(c): infinite or missing values in 'x'
-# Breaks during the 34th interaction, which is the 37 state since some statefip numbers are skipped.
+# Breaks during the 34th interaction, which is the 37 state (NC) since some statefip numbers are skipped.
 
-# To make sure this is not a placebo function related issue, we replaced the 48 state 
-# (the original one) with the 37 state and ran the synth() function again.
+# To make sure this is not a placebo function related issue, we replaced the 48th state 
+# (the original, which is Texas) with the 37th state (North Carolina) and ran the synth() function again.
 
 dataprep.out = dataprep(
   foo = texas,
