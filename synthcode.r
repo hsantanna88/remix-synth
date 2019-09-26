@@ -8,6 +8,7 @@
 #Libraries needed
 library(readstata13)
 library(Synth)
+
 #> ##
 #> ## Synth Package: Implements Synthetic Control Methods.
 #> ## See http://www.mit.edu/~jhainm/software.htm for additional information.
