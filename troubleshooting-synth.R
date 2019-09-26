@@ -8,9 +8,8 @@ library(Synth)
 
 texas <- read.dta13("texas.dta")
 
-
 # Prep Data
-
+data("basque")
 # prep data ---------------------------------------------------------------
 
 dataprep.out = dataprep(
@@ -122,9 +121,10 @@ if (0 %in% apply(X0, 1, sd))
 }
 
 # collinearity check
-#check <- try(solve(t(X0)%*%X0),silent=TRUE)
-# if(class(check)=="try-error")
-#  {stop("\n Some of the predictors in X0 are collinear (t(X0)%*%X0) not invertible")}
+check <- try(solve(t(X0)%*%X0),silent=TRUE)
+if(class(check)=="try-error"){
+	stop("\n Some of the predictors in X0 are collinear (t(X0)%*%X0) not invertible")
+	}
 
 # Normalize X
 nvarsV <- dim(X0)[1]
@@ -194,6 +194,18 @@ if (is.null(custom.v) & nrow(X0) != 1)
 	if (sum(optimxmethod %in% c("All")) == 1) {
 		all.methods <- TRUE
 	}
+
+
+
+
+# FAILURE HERE ------------------------------------------------------------
+# This is the function that is failing. IT does not return a valid results
+# Potential Issues.
+# We have some matrices that cannot be inverted which might be issue
+solve(t(X0.scaled)%*%X0.scaled)
+
+solve(t(X1.scaled)%*%X1.scaled)
+	
 	rgV.optim.1 <- optimx::optimx(
 		par = SV1,
 		fn = fn.V,
@@ -218,9 +230,8 @@ if (is.null(custom.v) & nrow(X0) != 1)
 		bound.ipop = Bound.ipop
 	)
 	# get minimum
-	if (verbose == TRUE) {
-		print(rgV.optim.1)
-	}
+	print(rgV.optim.1)
+	
 	rgV.optim.1 <- collect.optimx(rgV.optim.1, "min")
 	
 	# second set of starting values: regression method
@@ -268,9 +279,8 @@ if (is.null(custom.v) & nrow(X0) != 1)
 			bound.ipop = Bound.ipop
 		)
 		# get minimum
-		if (verbose == TRUE) {
 			print(rgV.optim.2)
-		}
+			
 		rgV.optim.2 <- collect.optimx(rgV.optim.2, "min")
 		
 		# ouput
