@@ -48,7 +48,7 @@ optimxmethod = c("BFGS")
 genoud = FALSE
 quadopt = "ipop"
 Margin.ipop = 0.0005
-Sigf.ipop = 5
+Sigf.ipop = 3
 Bound.ipop = 10
 verbose = FALSE
 
@@ -217,6 +217,9 @@ if (is.null(custom.v) & nrow(X0) != 1)
 		sigf.ipop = Sigf.ipop,
 		bound.ipop = Bound.ipop
 	)
+	if(rgV.optim.1$out.list["convcode"] != 0){
+		stop("First stage optimisation unsuccesful.\nConsider changing `Sigf.ipop`")
+	}
 	# get minimum
 	if (verbose == TRUE) {
 		print(rgV.optim.1)
@@ -267,6 +270,10 @@ if (is.null(custom.v) & nrow(X0) != 1)
 			sigf.ipop = Sigf.ipop,
 			bound.ipop = Bound.ipop
 		)
+		
+		if(rgV.optim.2$out.list["convcode"] != 0){
+			stop("Second stage optimisation unsuccesful.\nConsider changing `Sigf.ipop`")
+		}
 		# get minimum
 		if (verbose == TRUE) {
 			print(rgV.optim.2)
